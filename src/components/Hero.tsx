@@ -32,7 +32,7 @@ const Hero = () => {
             Try now
           </Button>
           <Button variant="outline" size="lg" onClick={scrollToFeatures}>
-            Learn more about querygpt
+            Learn more
           </Button>
         </div>
       </div>

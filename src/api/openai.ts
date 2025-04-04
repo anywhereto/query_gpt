@@ -1,11 +1,24 @@
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '@/lib/env';
+import { OPENROUTER_API_KEY, SITE_URL, SITE_NAME } from '@/lib/env';
 
-// Initialize the OpenAI client
+// Initialize the OpenAI client with OpenRouter configuration
 const openai = new OpenAI({
-  apiKey: OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true, // This allows usage in browser environment (for development)
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: OPENROUTER_API_KEY,
+  defaultHeaders: {
+    "HTTP-Referer": SITE_URL, // Site URL for rankings on openrouter.ai
+    "X-Title": SITE_NAME, // Site title for rankings on openrouter.ai
+  },
+  dangerouslyAllowBrowser: true, // This allows usage in browser environment
 });
+
+// Available models from OpenRouter
+export const AVAILABLE_MODELS = {
+  'deepseek-v3': 'deepseek/deepseek-chat-v3-0324:free',
+  'deepseek-r1': 'deepseek/deepseek-r1-zero:free',
+  'gemini-2.5-pro': 'google/gemini-2.5-pro-exp-03-25:free',
+  'gemini-2.0-flash': 'google/gemini-2.0-flash-thinking-exp-1219:free',
+};
 
 interface GenerateQueryParams {
   question: string;
@@ -20,7 +33,7 @@ interface GenerateQueryResult {
 }
 
 /**
- * Generates a database query from natural language using OpenAI
+ * Generates a database query from natural language using OpenRouter AI
  */
 export async function generateQuery({
   question,
@@ -37,12 +50,12 @@ Return ONLY the query code with no additional explanation or conversation.`;
       systemPrompt += `\n\nUse the following database schema for reference:\n${schema}`;
     }
 
-    // Determine which model to use
-    const modelName = aiModel === 'gpt-4' ? 'gpt-4-turbo' : 'gpt-3.5-turbo';
+    // Get the model ID from the selected AI model
+    const modelId = AVAILABLE_MODELS[aiModel] || AVAILABLE_MODELS['deepseek-v3'];
 
-    // Call the OpenAI API
+    // Call the OpenRouter API through the OpenAI client
     const completion = await openai.chat.completions.create({
-      model: modelName,
+      model: modelId,
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: question }

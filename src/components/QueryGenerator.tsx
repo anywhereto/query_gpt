@@ -7,13 +7,15 @@ import ModelSelector from './ModelSelector';
 import SchemaInput from './SchemaInput';
 import QueryInput from './QueryInput';
 import CodeDisplay from './CodeDisplay';
-import { generateQuery } from '@/api/openai';
-import { OPENAI_API_KEY, validateEnvironment } from '@/lib/env';
+import { generateQuery, AVAILABLE_MODELS } from '@/api/openai';
+import { validateEnvironment } from '@/lib/env';
 
 // Predefined options for our selectors
 const AI_MODELS = [
-  { value: 'gpt-3.5', label: 'GPT-3.5 Turbo' },
-  { value: 'gpt-4', label: 'GPT-4' },
+  { value: 'deepseek-v3', label: 'DeepSeek V3' },
+  { value: 'deepseek-r1', label: 'DeepSeek R1' },
+  { value: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
+  { value: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash' },
 ];
 
 const QUERY_LANGUAGES = [
@@ -168,7 +170,7 @@ ORDER BY order_count DESC;`,
 
 const QueryGenerator = () => {
   // State for all form inputs
-  const [aiModel, setAiModel] = useState('gpt-4');
+  const [aiModel, setAiModel] = useState('deepseek-v3');
   const [queryLanguage, setQueryLanguage] = useState('graphql');
   const [schema, setSchema] = useState('');
   const [question, setQuestion] = useState('');
@@ -182,10 +184,10 @@ const QueryGenerator = () => {
     const { valid, missing } = validateEnvironment();
     setApiKeyConfigured(valid);
     
-    if (!valid && missing.includes('OPENAI_API_KEY')) {
+    if (!valid && missing.includes('OPENROUTER_API_KEY')) {
       toast({
         title: "API Key Not Configured",
-        description: "Please set your OpenAI API key in the environment variables.",
+        description: "Please set your OpenRouter API key in the environment variables.",
         variant: "destructive",
       });
     }
@@ -222,7 +224,7 @@ const QueryGenerator = () => {
     if (!apiKeyConfigured) {
       toast({
         title: "API Key Required",
-        description: "Please configure your OpenAI API key to use this feature.",
+        description: "Please configure your OpenRouter API key to use this feature.",
         variant: "destructive",
       });
       return;
