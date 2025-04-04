@@ -53,6 +53,9 @@ Return ONLY the query code with no additional explanation or conversation.`;
     // Get the model ID from the selected AI model
     const modelId = AVAILABLE_MODELS[aiModel] || AVAILABLE_MODELS['deepseek-v3'];
 
+    // Measure response time
+    const startTime = performance.now();
+
     // Call the OpenRouter API through the OpenAI client
     const completion = await openai.chat.completions.create({
       model: modelId,
@@ -63,6 +66,11 @@ Return ONLY the query code with no additional explanation or conversation.`;
       temperature: 0.2, // Lower temperature for more deterministic responses
       max_tokens: 1000,
     });
+
+    // Calculate and print response latency
+    const endTime = performance.now();
+    const latency = endTime - startTime;
+    console.log(`AI Response Latency: ${latency.toFixed(2)}ms`);
 
     // Extract the generated query from the response
     const generatedQuery = completion.choices[0]?.message?.content?.trim() || '';
