@@ -7,6 +7,8 @@ import ModelSelector from './ModelSelector';
 import SchemaInput from './SchemaInput';
 import QueryInput from './QueryInput';
 import CodeDisplay from './CodeDisplay';
+import { generateQuery } from '@/api/openai';
+import { OPENAI_API_KEY, validateEnvironment } from '@/lib/env';
 
 // Predefined options for our selectors
 const AI_MODELS = [
@@ -172,7 +174,22 @@ const QueryGenerator = () => {
   const [question, setQuestion] = useState('');
   const [generatedQuery, setGeneratedQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [apiKeyConfigured, setApiKeyConfigured] = useState(false);
   const { toast } = useToast();
+
+  // Check if API key is configured
+  useEffect(() => {
+    const { valid, missing } = validateEnvironment();
+    setApiKeyConfigured(valid);
+    
+    if (!valid && missing.includes('OPENAI_API_KEY')) {
+      toast({
+        title: "API Key Not Configured",
+        description: "Please set your OpenAI API key in the environment variables.",
+        variant: "destructive",
+      });
+    }
+  }, [toast]);
 
   // Load saved preferences from localStorage
   useEffect(() => {
@@ -192,7 +209,7 @@ const QueryGenerator = () => {
     localStorage.setItem('schema', schema);
   }, [aiModel, queryLanguage, schema]);
 
-  const generateQuery = () => {
+  const generateQueryFromQuestion = async () => {
     if (!question.trim()) {
       toast({
         title: "Question Required",
@@ -202,17 +219,48 @@ const QueryGenerator = () => {
       return;
     }
 
+    if (!apiKeyConfigured) {
+      toast({
+        title: "API Key Required",
+        description: "Please configure your OpenAI API key to use this feature.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     
-    // Simulate API call with a timeout
-    setTimeout(() => {
-      setGeneratedQuery(EXAMPLE_QUERIES[queryLanguage] || EXAMPLE_QUERIES['sql']);
-      setIsLoading(false);
-      toast({
-        title: "Query GPT Success",
-        description: "Your SQL query has been generated successfully with querygpt.",
+    try {
+      // Call our OpenAI API integration
+      const result = await generateQuery({
+        question,
+        databaseType: queryLanguage,
+        schema: schema.trim() ? schema : undefined,
+        aiModel
       });
-    }, 1500);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      setGeneratedQuery(result.query);
+      toast({
+        title: "Query Generated",
+        description: "Your database query has been generated successfully.",
+      });
+    } catch (error) {
+      console.error("Error generating query:", error);
+      toast({
+        title: "Generation Failed",
+        description: error instanceof Error ? error.message : "Failed to generate query. Please try again.",
+        variant: "destructive",
+      });
+      
+      // Use example query as fallback
+      setGeneratedQuery(EXAMPLE_QUERIES[queryLanguage] || EXAMPLE_QUERIES['sql']);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -248,31 +296,30 @@ const QueryGenerator = () => {
             <div className="mt-6 flex justify-center">
               <Button 
                 size="lg" 
-                onClick={generateQuery} 
-                disabled={isLoading} 
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 w-full md:w-auto min-w-[180px]"
+                onClick={generateQueryFromQuestion}
+                disabled={isLoading || !question.trim()}
+                className="bg-primary hover:bg-primary/90"
               >
                 {isLoading ? (
                   <span className="flex items-center">
-                    <span className="dot-loader"></span>
-                    <span className="dot-loader"></span>
-                    <span className="dot-loader"></span>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Generating...
                   </span>
                 ) : (
-                  <>
-                    <Wand2 className="mr-2 h-5 w-5" />
+                  <span className="flex items-center">
+                    <Wand2 className="mr-2 h-4 w-4" />
                     Generate Query
-                  </>
+                  </span>
                 )}
               </Button>
             </div>
             
-            {(generatedQuery || isLoading) && (
-              <CodeDisplay 
-                code={generatedQuery} 
-                language={QUERY_LANGUAGES.find(lang => lang.value === queryLanguage)?.label || 'SQL'}
-              />
-            )}
+            <div className="mt-6">
+              <CodeDisplay code={generatedQuery} language={queryLanguage} />
+            </div>
           </CardContent>
         </Card>
       </div>

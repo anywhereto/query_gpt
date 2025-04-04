@@ -77,7 +77,11 @@ cd <YOUR_PROJECT_NAME>
 # Step 3: Install the necessary dependencies.
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Step 4: Create a .env file based on .env.example and add your OpenAI API key.
+cp .env.example .env
+# Edit .env and add your OpenAI API key (get one from https://platform.openai.com/api-keys)
+
+# Step 5: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
