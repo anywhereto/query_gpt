@@ -13,6 +13,7 @@ Query GPT is a modern web application that transforms natural language questions
 - [Project Architecture](#project-architecture)
 - [Technology Stack](#technology-stack)
 - [Core Features](#core-features)
+- [AI Capabilities](#ai-capabilities)
 - [Getting Started](#getting-started)
 - [Key Components](#key-components)
 - [Project Structure](#project-structure)
@@ -29,10 +30,15 @@ graph TD
     F[Query Input] --> B
     B --> G[Generated Query with Syntax Highlighting]
     A --> H[Features Display]
+    C --> I[Language Model Selection]
+    C --> J[Context Handling]
     
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#fbf,stroke:#333,stroke-width:2px
     style G fill:#bfb,stroke:#333,stroke-width:2px
+    style I fill:#fbf,stroke:#333,stroke-width:2px
+    style J fill:#fbf,stroke:#333,stroke-width:2px
 ```
 
 ## Technology Stack
@@ -47,6 +53,7 @@ graph TD
 | **Routing** | React Router |
 | **UI Components** | Radix UI, Lucide React icons |
 | **Form Handling** | React Hook Form, Zod validation |
+| **AI Integration** | OpenRouter API, LLM prompting |
 | **Developer Tools** | ESLint, TypeScript |
 
 ## Core Features
@@ -58,6 +65,17 @@ graph TD
 - 📱 **Responsive Design**: Works seamlessly across desktop and mobile devices
 - 🔄 **Preferences Saving**: Remembers your model and language preferences
 - 📋 **One-Click Copy**: Easy sharing of generated queries
+
+## AI Capabilities
+
+- **Multiple LLM Support**: Integrate with various language models through OpenRouter
+- **Context-Aware Queries**: Generate database queries that understand table relationships and schema context
+- **Intelligent Schema Analysis**: AI analyzes provided schemas to generate accurate and optimized queries
+- **Natural Language Understanding**: Process complex questions and convert them to precise database queries
+- **Query Optimization**: Suggestions for query performance improvements based on schema analysis
+- **Model Selection**: Choose from different AI models based on your specific needs and performance requirements
+- **Prompt Engineering**: Optimized prompts for generating accurate SQL and NoSQL queries
+- **Real-time Generation**: Fast response times for an interactive query development experience
 
 ## Getting Started
 
@@ -94,6 +112,7 @@ npm run dev
 | **QueryInput** | Natural language question input | `src/components/QueryInput.tsx` |
 | **CodeDisplay** | Syntax highlighted query display | `src/components/CodeDisplay.tsx` |
 | **ModelSelector** | AI model and DB type selection | `src/components/ModelSelector.tsx` |
+| **AIProvider** | Manages AI model connections and context | `src/providers/AIProvider.tsx` |
 | **Hero** | Main landing section | `src/components/Hero.tsx` |
 | **Features** | Feature showcase section | `src/components/Features.tsx` |
 
@@ -107,7 +126,11 @@ query-gpt/
 │   │   ├── QueryGenerator.tsx  # Main query generation component
 │   │   └── ...              # Other components
 │   ├── hooks/               # Custom React hooks
+│   │   ├── useAIModel.ts    # Hook for AI model management
+│   │   └── ...              # Other hooks
 │   ├── lib/                 # Utility functions and helpers
+│   │   ├── ai/              # AI-related utilities and API clients
+│   │   └── ...              # Other utilities
 │   ├── pages/               # Page components
 │   └── App.tsx              # Main application component
 ├── public/                  # Static assets
