@@ -8,6 +8,12 @@
 
 Query GPT is a modern web application that transforms natural language questions into SQL and NoSQL database queries using advanced language models. The application provides an intuitive interface for generating queries across multiple database systems and offers features like syntax highlighting, schema analysis, and easy query sharing.
 
+## Live Demo
+
+**🔗 [Try Query GPT Online](https://query-gpt.com/)**
+
+Experience the tool directly in your browser without any installation.
+
 ## Table of Contents
 
 - [Project Architecture](#project-architecture)
