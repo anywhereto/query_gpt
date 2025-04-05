@@ -15,8 +15,6 @@ const openai = new OpenAI({
 // Available models from OpenRouter
 export const AVAILABLE_MODELS = {
   'deepseek-v3': 'deepseek/deepseek-chat-v3-0324:free',
-  'deepseek-r1': 'deepseek/deepseek-r1-zero:free',
-  'gemini-2.5-pro': 'google/gemini-2.5-pro-exp-03-25:free',
   'gemini-2.0-flash': 'google/gemini-2.0-flash-thinking-exp-1219:free',
 };
 
@@ -53,6 +51,12 @@ Return ONLY the query code with no additional explanation or conversation.`;
     // Get the model ID from the selected AI model
     const modelId = AVAILABLE_MODELS[aiModel] || AVAILABLE_MODELS['deepseek-v3'];
 
+    // Log the prompts being sent to the AI
+    console.log('=== AI INPUT ===');
+    console.log('System Prompt:', systemPrompt);
+    console.log('User Question:', question);
+    console.log('Model:', modelId);
+
     // Measure response time
     const startTime = performance.now();
 
@@ -71,6 +75,11 @@ Return ONLY the query code with no additional explanation or conversation.`;
     const endTime = performance.now();
     const latency = endTime - startTime;
     console.log(`AI Response Latency: ${latency.toFixed(2)}ms`);
+
+    // Log the complete AI response
+    console.log('=== AI OUTPUT ===');
+    console.log('Response:', completion);
+    console.log('Generated Query:', completion.choices[0]?.message?.content);
 
     // Extract the generated query from the response
     const generatedQuery = completion.choices[0]?.message?.content?.trim() || '';

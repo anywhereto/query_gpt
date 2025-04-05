@@ -13,8 +13,6 @@ import { validateEnvironment } from '@/lib/env';
 // Predefined options for our selectors
 const AI_MODELS = [
   { value: 'deepseek-v3', label: 'DeepSeek V3' },
-  { value: 'deepseek-r1', label: 'DeepSeek R1' },
-  { value: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
   { value: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash' },
 ];
 
