@@ -4,9 +4,6 @@
       "maxDuration": 30
     }
   },
-  "env": {
-    "OPENROUTER_API_KEY": "@openrouter-api-key"
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
