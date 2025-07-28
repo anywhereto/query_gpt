@@ -23,6 +23,15 @@ dist-ssr
 *.sln
 *.sw?
 
+# Environment files - 包含敏感信息，不应提交
 .env
 .env.local
 .env.production
+.env.development
+server/.env
+server/.env.*
+!server/.env.example
+
+# API Keys and sensitive data
+*.pem
+*.key

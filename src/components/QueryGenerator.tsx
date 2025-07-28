@@ -8,7 +8,7 @@ import SchemaInput from './SchemaInput';
 import QueryInput from './QueryInput';
 import CodeDisplay from './CodeDisplay';
 import { generateQuery, AVAILABLE_MODELS } from '@/api/openai';
-import { validateEnvironment } from '@/lib/env';
+import { validateApiConnection } from '@/lib/env';
 
 // Predefined options for our selectors
 const AI_MODELS = [
@@ -177,18 +177,22 @@ const QueryGenerator = () => {
   const [apiKeyConfigured, setApiKeyConfigured] = useState(false);
   const { toast } = useToast();
 
-  // Check if API key is configured
+  // Check if API connection is configured
   useEffect(() => {
-    const { valid, missing } = validateEnvironment();
-    setApiKeyConfigured(valid);
+    const checkApiConnection = async () => {
+      const { valid, error } = await validateApiConnection();
+      setApiKeyConfigured(valid);
+      
+      if (!valid) {
+        toast({
+          title: "API连接失败",
+          description: error || "无法连接到后端服务器，请检查服务器是否启动。",
+          variant: "destructive",
+        });
+      }
+    };
     
-    if (!valid && missing.includes('OPENROUTER_API_KEY')) {
-      toast({
-        title: "API Key Not Configured",
-        description: "Please set your OpenRouter API key in the environment variables.",
-        variant: "destructive",
-      });
-    }
+    checkApiConnection();
   }, [toast]);
 
   // Load saved preferences from localStorage

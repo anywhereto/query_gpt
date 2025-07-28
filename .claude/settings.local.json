@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(npm install)",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(node server.js)",
+      "Bash(pkill:*)",
+      "Bash(true)",
+      "Bash(echo)",
+      "Bash(vite)",
+      "Bash(vite --port 8080)",
+      "Bash(vite:*)",
+      "mcp__puppeteer__puppeteer_navigate",
+      "mcp__puppeteer__puppeteer_screenshot",
+      "Bash(grep:*)"
+    ],
+    "deny": []
+  }
+}

@@ -2,28 +2,32 @@
  * Environment variable configuration for the application
  */
 
-// OpenRouter API Key - used for query generation
-export const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
+// API Base URL - Vercel部署时使用相对路径，本地开发时使用环境变量
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
-// Application information for OpenRouter
-export const SITE_URL = import.meta.env.VITE_SITE_URL || window.location.origin;
-export const SITE_NAME = import.meta.env.VITE_SITE_NAME || 'Query GPT';
+// Application information
+export const SITE_URL = window.location.origin;
+export const SITE_NAME = 'Query GPT';
 
 // Flag to check if we're in development mode
 export const IS_DEVELOPMENT = import.meta.env.MODE === 'development';
 
-// Helper function to check if required environment variables are set
-export function validateEnvironment(): { valid: boolean; missing: string[] } {
-  const requiredVars = [
-    { name: 'OPENROUTER_API_KEY', value: OPENROUTER_API_KEY },
-  ];
-
-  const missing = requiredVars
-    .filter(v => !v.value)
-    .map(v => v.name);
-
-  return {
-    valid: missing.length === 0,
-    missing
-  };
+// Helper function to check API connectivity
+export async function validateApiConnection(): Promise<{ valid: boolean; error?: string }> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/health`);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const data = await response.json();
+    return {
+      valid: data.status === 'OK' && data.apiKeyConfigured,
+      error: !data.apiKeyConfigured ? 'API Key未配置' : undefined
+    };
+  } catch (error) {
+    return {
+      valid: false,
+      error: error instanceof Error ? error.message : '无法连接到服务器'
+    };
+  }
 } 
