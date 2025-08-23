@@ -11,6 +11,7 @@ const Footer = () => {
           <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
           <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
           <a href="mailto:support@query-gpt.com" className="hover:text-primary transition-colors">Contact</a>
+          <a href="https://picturetodrawing.org" className="hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">Picture to Drawing</a>
         </div>
       </div>
     </footer>
