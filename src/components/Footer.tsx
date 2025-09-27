@@ -12,6 +12,7 @@ const Footer = () => {
           <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
           <a href="mailto:support@query-gpt.com" className="hover:text-primary transition-colors">Contact</a>
           <a href="https://picturetodrawing.org" className="hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">Picture to Drawing</a>
+          <a href="https://bananananoai.net/" className="hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer" title="Banana Nano AI - Your Ultimate AI Image Tools">Banana Nano AI</a>
         </div>
       </div>
     </footer>
