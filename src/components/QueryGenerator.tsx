@@ -9,6 +9,7 @@ import QueryInput from './QueryInput';
 import CodeDisplay from './CodeDisplay';
 import { generateQuery, AVAILABLE_MODELS } from '@/api/openai';
 import { validateApiConnection } from '@/lib/env';
+import { useI18n } from '@/i18n/I18nProvider';
 
 // Predefined options for our selectors
 const AI_MODELS = [
@@ -176,6 +177,7 @@ const QueryGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [apiKeyConfigured, setApiKeyConfigured] = useState(false);
   const { toast } = useToast();
+  const { t } = useI18n();
 
   // Check if API connection is configured
   useEffect(() => {
@@ -185,8 +187,8 @@ const QueryGenerator = () => {
       
       if (!valid) {
         toast({
-          title: "API连接失败",
-          description: error || "无法连接到后端服务器，请检查服务器是否启动。",
+          title: t('api.connection.fail.title'),
+          description: error || t('api.connection.fail.desc'),
           variant: "destructive",
         });
       }
@@ -216,8 +218,8 @@ const QueryGenerator = () => {
   const generateQueryFromQuestion = async () => {
     if (!question.trim()) {
       toast({
-        title: "Question Required",
-        description: "Please enter a question for Query GPT to generate a query.",
+        title: t('generator.toast.needQuestion.title'),
+        description: t('generator.toast.needQuestion.desc'),
         variant: "destructive",
       });
       return;
@@ -225,8 +227,8 @@ const QueryGenerator = () => {
 
     if (!apiKeyConfigured) {
       toast({
-        title: "API Key Required",
-        description: "Please configure your OpenRouter API key to use this feature.",
+        title: t('generator.toast.noKey.title'),
+        description: t('generator.toast.noKey.desc'),
         variant: "destructive",
       });
       return;
@@ -249,14 +251,14 @@ const QueryGenerator = () => {
 
       setGeneratedQuery(result.query);
       toast({
-        title: "Query Generated",
-        description: "Your database query has been generated successfully.",
+        title: t('generator.toast.success.title'),
+        description: t('generator.toast.success.desc'),
       });
     } catch (error) {
       console.error("Error generating query:", error);
       toast({
-        title: "Generation Failed",
-        description: error instanceof Error ? error.message : "Failed to generate query. Please try again.",
+        title: t('generator.toast.fail.title'),
+        description: error instanceof Error ? error.message : t('generator.toast.fail.desc'),
         variant: "destructive",
       });
       
@@ -275,14 +277,14 @@ const QueryGenerator = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <ModelSelector
                 id="ai-model"
-                label="AI Model"
+                label={t('generator.aiModel')}
                 options={AI_MODELS}
                 value={aiModel}
                 onChange={setAiModel}
               />
               <ModelSelector
                 id="query-language"
-                label="Query Language"
+                label={t('generator.queryLanguage')}
                 options={QUERY_LANGUAGES}
                 value={queryLanguage}
                 onChange={setQueryLanguage}
@@ -310,12 +312,12 @@ const QueryGenerator = () => {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Generating...
+                    {t('generator.button.generating')}
                   </span>
                 ) : (
                   <span className="flex items-center">
                     <Wand2 className="mr-2 h-4 w-4" />
-                    Generate Query
+                    {t('generator.button.generate')}
                   </span>
                 )}
               </Button>

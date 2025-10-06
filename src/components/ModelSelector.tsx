@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { useI18n } from '@/i18n/I18nProvider';
 
 type ModelOption = {
   value: string;
@@ -29,6 +30,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
   value,
   onChange
 }) => {
+  const { t } = useI18n();
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{label}</Label>
@@ -37,7 +39,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
         onValueChange={onChange}
       >
         <SelectTrigger id={id} className="w-full">
-          <SelectValue placeholder="Select an option" />
+          <SelectValue placeholder={t('select.placeholder')} />
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (

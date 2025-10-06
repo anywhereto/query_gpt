@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useI18n } from '@/i18n/I18nProvider';
 
 const Hero = () => {
   const scrollToGenerator = () => {
@@ -17,22 +18,23 @@ const Hero = () => {
     }
   };
 
+  const { t } = useI18n();
   return (
     <section className="py-16 md:py-24 px-4 text-center relative overflow-hidden">
       <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-          Query GPT: Transform Natural Language into
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600"> Perfect SQL</span>
+          {t('hero.title.prefix')}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">{t('hero.title.highlight')}</span>
         </h1>
         <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-          Convert your questions into database queries instantly.
+          {t('hero.subtitle')}
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
           <Button size="lg" onClick={scrollToGenerator} className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
-            Try now
+            {t('hero.cta.try')}
           </Button>
           <Button variant="outline" size="lg" onClick={scrollToFeatures}>
-            Learn more
+            {t('hero.cta.learn')}
           </Button>
         </div>
       </div>

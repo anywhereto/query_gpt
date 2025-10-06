@@ -1,10 +1,12 @@
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEOHead from '@/components/SEOHead';
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead title="Privacy Policy | Query GPT" description="Learn about how Query GPT handles your data and protects your privacy." />
       <Header />
       <main className="flex-1 max-w-4xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-bold mb-8">Privacy Policy</h1>

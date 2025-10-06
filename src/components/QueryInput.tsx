@@ -2,6 +2,7 @@
 import React from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { useI18n } from '@/i18n/I18nProvider';
 
 interface QueryInputProps {
   value: string;
@@ -9,12 +10,13 @@ interface QueryInputProps {
 }
 
 const QueryInput: React.FC<QueryInputProps> = ({ value, onChange }) => {
+  const { t } = useI18n();
   return (
     <div className="space-y-2">
-      <Label htmlFor="question">Your Question</Label>
+      <Label htmlFor="question">{t('generator.question.label')}</Label>
       <Textarea
         id="question"
-        placeholder="Ask a question in natural language, e.g. 'Show me all users who registered in the last 7 days'"
+        placeholder={t('generator.question.placeholder')}
         className="min-h-[80px]"
         value={value}
         onChange={(e) => onChange(e.target.value)}

@@ -6,10 +6,12 @@ import Features from '@/components/Features';
 import HowToUse from '@/components/HowToUse';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
+import SEOHead from '@/components/SEOHead';
 
 const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead />
       <Header />
       <main className="flex-1">
         <Hero />

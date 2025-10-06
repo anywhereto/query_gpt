@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.query-gpt.com/</loc>
+    <lastmod>2025-10-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.query-gpt.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://www.query-gpt.com/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.query-gpt.com/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.query-gpt.com/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.query-gpt.com/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.query-gpt.com/"/>
+  </url>
+
+  <!-- Terms of Service -->
+  <url>
+    <loc>https://www.query-gpt.com/terms</loc>
+    <lastmod>2025-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.query-gpt.com/terms?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://www.query-gpt.com/terms?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.query-gpt.com/terms?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.query-gpt.com/terms?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.query-gpt.com/terms?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.query-gpt.com/terms"/>
+  </url>
+
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://www.query-gpt.com/privacy</loc>
+    <lastmod>2025-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.query-gpt.com/privacy?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://www.query-gpt.com/privacy?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.query-gpt.com/privacy?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.query-gpt.com/privacy?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.query-gpt.com/privacy?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.query-gpt.com/privacy"/>
+  </url>
+
+</urlset>
+

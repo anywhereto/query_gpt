@@ -4,6 +4,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Upload } from 'lucide-react';
+import { useI18n } from '@/i18n/I18nProvider';
 
 interface SchemaInputProps {
   value: string;
@@ -24,10 +25,11 @@ const SchemaInput: React.FC<SchemaInputProps> = ({ value, onChange }) => {
     reader.readAsText(file);
   };
 
+  const { t } = useI18n();
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
-        <Label htmlFor="schema">Database Schema</Label>
+        <Label htmlFor="schema">{t('generator.schema.label')}</Label>
         <div className="relative">
           <input
             type="file"
@@ -38,20 +40,13 @@ const SchemaInput: React.FC<SchemaInputProps> = ({ value, onChange }) => {
           />
           <Button variant="outline" size="sm" className="text-xs">
             <Upload className="h-3 w-3 mr-1" />
-            Upload
+            {t('generator.schema.upload')}
           </Button>
         </div>
       </div>
       <Textarea
         id="schema"
-        placeholder="Paste your database schema here or upload a file... 
-Example:
-CREATE TABLE users (
-  id INT PRIMARY KEY,
-  name VARCHAR(100),
-  email VARCHAR(100),
-  created_at TIMESTAMP
-);"
+        placeholder={t('generator.schema.placeholder')}
         className="min-h-[150px] font-mono text-sm"
         value={value}
         onChange={(e) => onChange(e.target.value)}
